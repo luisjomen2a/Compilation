@@ -1,29 +1,45 @@
 %{
-
+#include <stdlib.h>
+#include <stdio.h>
 
 %}
 
-debutAlgo \\begin\{algo\}\{([a-zA-z])+\}
 
-declarationVariable ([a-zA-Z])+ \\in \\([a-zA-Z])+
+debutAlgo \\begin\{algo\}\{([a-zA-Z0-9])+\}
 
-declarationConstante ([a-zA-Z])+ \\in \\([a-zA-Z])
+space [\n\t\r ]*
 
-suitedeDeclarations (\\emptyset)|(declarationVariable)|(declarationConstante)
+identifiant [a-zA-Z]+
 
-constant \\Constant\{\${suitedeDeclarations}\$\}
+entier [1-9][0-9]+
 
-input \\Input\{\${suitedeDeclarations}\$\}
+scalaire {identifiant}{space}\\in{space}\\{identifiant}
 
-output \\Output\{\${suitedeDeclarations}\$\}
+scalaireTableau {identifiant}{space}\\in{space}\\{identifiant}\^\{{entier}\}
 
-global \\Global\{\${suitedeDeclarations}\$\}
+scalaireConstante {identifiant}\={space}\\in{space}\\{identifiant}
 
-local \\Local\{\${suitedeDeclarations}\$\}
+declarationVariable {scalaire}|{scalaireTableau}|{scalaireConstante}
+
+suitedeDeclarations \{\$(\\emptyset|{declarationVariable}({space},{space}{declarationVariable})*)\$\}
+
+constant \\Constant
+
+input \\Input
+
+output \\Output
+
+global \\Global
+
+local \\Local
 
 endAlgo \\end\{algo\}
 
+finDeclarations \\BlankLine
+
 %%
+
+{suitedeDeclarations} {printf("suiteDeDeclarations\n");}
 
 {debutAlgo} {printf("debutAlgo\n");}
 
@@ -39,9 +55,25 @@ endAlgo \\end\{algo\}
 
 {endAlgo} {printf("EndAlgo\n");}
 
+{finDeclarations} {printf("FinDecration\n");}
+
+{identifiant} {printf("Identifiant");}
+
+. {printf("%s",yytext);}
+
 %%
 
-int main(){
+int main(int argc, char * argv[]){
+
+	yyin=fopen(argv[1] ,"r");
+
+	if(yyin == NULL){
+
+		printf("File: error\n");
+		exit(1);
+	}
+	printf("Testing...");
+	yylex();
 
 	return 0;
 

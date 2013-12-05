@@ -7,9 +7,10 @@ int debut = 0;
 %}
 
 
-debutAlgo \\begin\{algo\}\{([a-zA-Z0-9])+\}
+debutAlgo \\begin\{algo\}\{([a-zA-Z0-9])+\} //Debut de l'algorithme
 
-space [\n\t\r ]*
+space [\n\t\r ]* //Tout espace tabulation ou autre
+
 
 lettres [a-zA-Z]+
 
@@ -21,17 +22,22 @@ accOuvre "{"
 accFerme "}"
 dollar "$"
 
-entier [1-9][0-9]+
 
-scalaire {identifiant}{space}\\in{space}\\{identifiant}
+entier [1-9][0-9]+ //Valeur entière
+
+//Il existe trois types déclaration possible, soit c'est un scalaire, c'est à dire qu'il s'agit d'un simple <nom var> \in <type>
+//Soit un scalaire constant <nom var> = <valeur> \in <type> 
+//Soit un scalaire floatant (un tableau) <nom var> \in <type>^<entier>
+
+scalaire {identifiant}{space}\\in{space}\\{identifiant} //
 
 scalaireTableau {identifiant}{space}\\in{space}\\{identifiant}\^{accOuvre}{entier}{accFerme}
 
-scalaireConstante {identifiant}\={space}\\in{space}\\{identifiant}
+scalaireConstante {identifiant}\={space}\\in{space}\\{identifiant} //à compléter!!
 
 declarationVariable {scalaire}|{scalaireTableau}|{scalaireConstante}
 
-suitedeDeclarations {accOuvre}{dollar}(\\emptyset|{declarationVariable}({space},{space}{declarationVariable})*){dollar}{accFerme}
+suitedeDeclarations {accOuvre}{dollar}(\\emptyset|{declarationVariable}({space},{space}{declarationVariable})*){dollar}{accFerme} //les dolars '$' font partie de la grammaire, et il ne faut pas oublier le cas \emptyset.
 
 constant \\Constant
 input \\Input

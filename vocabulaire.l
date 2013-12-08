@@ -7,9 +7,9 @@ int debut = 0;
 %}
 
 
-debutAlgo \\begin\{algo\}\{([a-zA-Z0-9])+\} //Debut de l'algorithme
+debutAlgo \\begin\{algo\}\{([a-zA-Z0-9])+\}
 
-space [\n\t\r ]* //Tout espace tabulation ou autre
+space [\n\t\r ]*
 
 
 lettres [a-zA-Z]+
@@ -23,21 +23,11 @@ accFerme "}"
 dollar "$"
 
 
-entier [1-9][0-9]+ //Valeur entière
+entier [1-9][0-9]+
+float {entier}\.[0-9]+
+bool true|false
 
-//Il existe trois types déclaration possible, soit c'est un scalaire, c'est à dire qu'il s'agit d'un simple <nom var> \in <type>
-//Soit un scalaire constant <nom var> = <valeur> \in <type> 
-//Soit un scalaire floatant (un tableau) <nom var> \in <type>^<entier>
-
-scalaire {identifiant}{space}\\in{space}\\{identifiant} //
-
-scalaireTableau {identifiant}{space}\\in{space}\\{identifiant}\^{accOuvre}{entier}{accFerme}
-
-scalaireConstante {identifiant}\={space}\\in{space}\\{identifiant} //à compléter!!
-
-declarationVariable {scalaire}|{scalaireTableau}|{scalaireConstante}
-
-suitedeDeclarations {accOuvre}{dollar}(\\emptyset|{declarationVariable}({space},{space}{declarationVariable})*){dollar}{accFerme} //les dolars '$' font partie de la grammaire, et il ne faut pas oublier le cas \emptyset.
+scalaire {identifiant}{space}\\in{space}
 
 constant \\Constant
 input \\Input
@@ -49,13 +39,22 @@ finDeclarations \\BlankLine
 
 leftarrow \\leftarrow
 
-finInstruction \;
+finInstruction \\;
 
 while \\While 
 repeat \\Repeat
 for \\For
 if \\If
 elseIf \\eIf 
+
+kwto \\KwTo
+
+false \\false
+true \\true
+
+integer \\Integer
+boolean \\Boolean
+complex \\Complex
 
 ou \\vee
 et \\wedge
@@ -68,22 +67,42 @@ mult \\times
 plus \+
 moins -
 puiss \^
+appel \\mbox
 
-appel mbox
+in \\in
 
 endAlgo \\end\{algo\}
 
 %%
 
+{debutAlgo} {debut = 1; printf("Debut algo");}
+
+{false} {printf(" false ");}
+{true} {printf(" true ");}
+{boolean} {printf(" boolean ");}
+{integer} {printf(" Integer ");}
+{complex} {printf(" complexe ");}
+
+{in} {printf("in");}
+{kwto} {prinf(" KWTO ")}
+
+{ou} {printf("||");}
+{et} {printf("&&");}
+{not} {printf("!");}
+{GrandEgale} {printf(">=");}
+{PetitEgale} {printf("<=");}
+{different} {printf("!=");}
+
+{egale} {printf("EGALE");}
+
 {parOuvre} {if(debut==1)printf("parOuvre");}
 {parFerme} {if(debut==1)printf("parFerme");}
 {accOuvre} {if(debut==1)printf("accOuvre");}
 {accFerme} {if(debut==1)printf("accFerme");}
-{dollar}   {if(debut==1)printf("dollar");}
+{dollar} {if(debut==1)printf("dollar");}
 
-{suitedeDeclarations} {printf("suiteDeDeclarations\n");}
+{suitedeDeclarations} {printf(" SuiteDeclarations ");}
 
-{debutAlgo} { debut = 1; printf("debutAlgo\n");}
 {constant} {printf("Constante\n");}
 {input} {printf("Input\n");}
 {output} {printf("Output\n");}
@@ -103,8 +122,11 @@ endAlgo \\end\{algo\}
 {moins} {if(debut==1)printf("moins");}
 {puiss} {if(debut==1)printf(" puiss ");}
 
-appel {if(debut==1)printf( "function");}
+{appel} {if(debut==1)printf( " function");}
 
+{entier} {if(debut==1)printf(" entier ");}
+{float} {if(debut==1)printf(" float ");}
+{bool}  {if(debut==1)printf(" bool ");}
 
 {identifiant} {if(debut==1)printf("Identifiant");}
 

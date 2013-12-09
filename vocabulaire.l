@@ -67,6 +67,7 @@ mult \\times
 plus \+
 moins -
 puiss \^
+egale \=
 appel \\mbox
 
 in \\in
@@ -121,10 +122,11 @@ endAlgo \\end\{algo\}
 {plus}  {if(debut==1)printf("plus");}
 {moins} {if(debut==1)printf("moins");}
 {puiss} {if(debut==1)printf(" puiss ");}
+{egale} {if(debut==1)pritnf(" egale ");}
 
 {appel} {if(debut==1)printf( " function");}
 
-{entier} {if(debut==1)printf(" entier ");}
+{entier} {if(debut==1)return BOOL}
 {float} {if(debut==1)printf(" float ");}
 {bool}  {if(debut==1)printf(" bool ");}
 

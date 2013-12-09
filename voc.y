@@ -42,7 +42,15 @@
 %left  '\\'
 
 
+%union{
 
+	codgen* codegenVal;
+	int valeur;
+	int ENTIER;
+
+	
+
+}
 
 
 
@@ -52,7 +60,6 @@
 %%
 
 algorithme:                  	DEBUTALGO func_part ENDALGO
-
 func_part:                   	declaration_list FINDESCRIPTION suite_description ;
 
 declaration_list:            	constant_list input_list output_list global_list local_list ;
@@ -103,19 +110,18 @@ declaration:                 declaration_val
 declaration_val:             SCALAIRE type_scalaire ;
 
 type_scalaire:              
-					ENTIER PUISS ACCOUVRE ENTIER ACCFERME
-					| FLOAT PUISS ACCOUVRE ENTIER ACCFERME
-
-                    | BOOL PUISS ACCOUVRE ENTIER ACCFERME
-                    ;
+			ENTIER PUISS ACCOUVRE ENTIER ACCFERME
+			;
 
 declaration_cons:            IDENTIFIANT EGALE valeur IN type_scalaire ;
 
-suite_description:        structure_controle suite_desc
-                          | DOLLAR instruction DOLLAR FININSTRUCTION suite_desc
+
+suite_description:        element_desc suite_description
+                          |	
 			  ;
-suite_desc :		  suite_description
-			  |
+
+element_desc :		  structure_controle
+			  | DOLLAR instruction DOLLAR FININSTRUCTION 
 			  ;
 
 structure_controle : 				WHILE ACCOUVRE expr_bool ACCFERME  ACCOUVRE suite_description ACCFERME
@@ -134,7 +140,7 @@ expr_bool	:				operand_bool bool_op operand_bool
 
 operand_bool 				:	IDENTIFIANT
 			   			|valeur
-						|expr_bool
+						|PAROUVRE expr_bool PARFERME
 						;
 
 bool_op 		:			OU
@@ -148,7 +154,7 @@ instruction :
 						IDENTIFIANT LEFTARROW expression
 						;
 
-expression:  					valeur
+expression:  					valeur 
 		  				| operand operateur operand
 						| APPEL ACCOUVRE IDENTIFIANT PAROUVRE expression PARFERME ACCFERME 
 						;
@@ -156,17 +162,16 @@ operand :
 
 						valeur
 						|IDENTIFIANT
-						|expression
+						| PAROUVRE expression PARFERME 
 						;
-operateur :					MULT
+operateur :					MULT 
 	  					|PLUS
 						|MOINS
 						|PUISS
-						;	  
+						;
+	  
 valeur:
-						BOOL
-						|FLOAT
-						|ENTIER
+						ENTIER 
 						;
 %%
 

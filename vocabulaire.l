@@ -76,69 +76,69 @@ endAlgo \\end\{algo\}
 
 %%
 
-{debutAlgo} {debut = 1; printf("Debut algo");}
+{debutAlgo} {debut = 1;return DEBUTALGO;}
 
-{false} {printf(" false ");}
-{true} {printf(" true ");}
-{boolean} {printf(" boolean ");}
-{integer} {printf(" Integer ");}
-{complex} {printf(" complexe ");}
+{false} {return FALSE;}
+{true} {return TRUE;}
+{boolean} {return BOOL;}
+{integer} {return ENTIER;}
+{complex} {return FLOAT;}
 
-{in} {printf("in");}
-{kwto} {prinf(" KWTO ")}
+{in} {return IN;}
+{kwto} {return KWTO;}
 
-{ou} {printf("||");}
-{et} {printf("&&");}
-{not} {printf("!");}
-{GrandEgale} {printf(">=");}
-{PetitEgale} {printf("<=");}
-{different} {printf("!=");}
-
-
-
-{parOuvre} {if(debut==1)printf("parOuvre");}
-{parFerme} {if(debut==1)printf("parFerme");}
-{accOuvre} {if(debut==1)printf("accOuvre");}
-{accFerme} {if(debut==1)printf("accFerme");}
-{dollar} {if(debut==1)printf("dollar");}
+{ou} {return OU;}
+{et} {return ET;}
+{not} {return NOT}
+{GrandEgale} {return GRANDEGALE;}
+{PetitEgale} {return PETITEGALE;}
+{different} {return DIFFERTENT;}
 
 
 
-{constant} {printf("Constante\n");}
-{input} {printf("Input\n");}
-{output} {printf("Output\n");}
-{global} {printf("Global\n");}
-{local} {printf("Local\n");}
+{parOuvre} {if(debut==1)return PAROUVRE;}
+{parFerme} {if(debut==1)return PARFERME;}
+{accOuvre} {if(debut==1)return ACCOUVRE;}
+{accFerme} {if(debut==1)return ACCFERME;}
+{dollar} {if(debut==1)return DOLLAR;}
 
-{finDeclarations} {printf("FinDecration\n");}
 
-{while}  {if(debut==1)printf("while");}
-{repeat} {if(debut==1)printf("repeat");}
-{for}    {if(debut==1)printf("for");}
-{if}     {if(debut==1)printf("if");}
-{elseIf} {if(debut==1)printf("elseIF");}
 
-{mult}  {if(debut==1)printf("mult");}
-{plus}  {if(debut==1)printf("plus");}
-{moins} {if(debut==1)printf("moins");}
-{puiss} {if(debut==1)printf(" puiss ");}
-{egale} {if(debut==1)pritnf(" egale ");}
+{constant} {return CONSTANT;}
+{input} {return INPUT;}
+{output} {return OUTPUT;}
+{global} {return GLOBAL;}
+{local} {return LOCAL;}
 
-{appel} {if(debut==1)printf( " function");}
+{finDeclarations} {return FINDECLARATION}
 
-{entier} {if(debut==1)return BOOL}
-{float} {if(debut==1)printf(" float ");}
-{bool}  {if(debut==1)printf(" bool ");}
+{while}  {if(debut==1)return WHILE;}
+{repeat} {if(debut==1)return REPEAT;}
+{for}    {if(debut==1)return FOR;}
+{if}     {if(debut==1)return IF;}
+{elseIf} {if(debut==1)return EIF;}
 
-{identifiant} {if(debut==1)printf("Identifiant");}
+{mult}  {if(debut==1)return MULT;}
+{plus}  {if(debut==1)return PLUS;}
+{moins} {if(debut==1)return MOINS;}
+{puiss} {if(debut==1)return PUISS;}
+{egale} {if(debut==1)return EGALE;}
 
-{leftarrow} {printf("<-");}
+{appel} {if(debut==1)return APPEL;}
 
-{finInstruction} {printf(" finInstruction ");}
+{entier} {if(debut==1)return ENTIER;}
+{float} {if(debut==1)return FLOAT;}
+{bool}  {if(debut==1)return BOOL;}
+
+{identifiant} {if(debut==1)return IDENTIFIANT;}
+
+{leftarrow} {return LEFTARROW;}
+
+{finInstruction} {return FININSTRUCTION;}
 
 . {printf("%s",yytext);}
 
-{endAlgo} {printf("EndAlgo\n"); debut =0;}
+{endAlgo} { debut =0; return ENDALGO;}
 %%
 
 int main(int argc, char * argv[]){

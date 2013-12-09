@@ -50,6 +50,7 @@
 
 
 %%
+
 algorithme:                  	DEBUTALGO func_part ENDALGO
 
 func_part:                   	declaration_list FINDESCRIPTION suite_description ;

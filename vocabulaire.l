@@ -94,7 +94,7 @@ endAlgo \\end\{algo\}
 {PetitEgale} {printf("<=");}
 {different} {printf("!=");}
 
-{egale} {printf("EGALE");}
+
 
 {parOuvre} {if(debut==1)printf("parOuvre");}
 {parFerme} {if(debut==1)printf("parFerme");}
@@ -102,7 +102,7 @@ endAlgo \\end\{algo\}
 {accFerme} {if(debut==1)printf("accFerme");}
 {dollar} {if(debut==1)printf("dollar");}
 
-{suitedeDeclarations} {printf(" SuiteDeclarations ");}
+
 
 {constant} {printf("Constante\n");}
 {input} {printf("Input\n");}

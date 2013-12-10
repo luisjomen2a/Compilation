@@ -99,7 +99,7 @@ declaration :		ACCOUVRE DOLLAR suite_declaration DOLLAR ACCFERME
 			;
 
 
-suite_declaration:        |  declaration ',' suite_description
+suite_declaration:        |  declaration ',' suite_declaration
                           |  declaration
                           ;
 

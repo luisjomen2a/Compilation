@@ -1,20 +1,20 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
-
+#include "y.tab.h"
 int debut = 0;
 
 %}
 
 
-debutAlgo \\begin\{algo\}\{([a-zA-Z0-9])+\}
+debutAlgo \\begin\{algo\}
 
 space [\n\t\r ]*
 
 
 lettres [a-zA-Z]+
 
-identifiant ("_"{lettres}|{lettres})[{entier}{lettres}]*
+identifiant {lettres}
 
 parOuvre "("
 parFerme ")"
@@ -23,7 +23,7 @@ accFerme "}"
 dollar "$"
 
 
-entier [1-9][0-9]+
+entier [0-9]+
 float {entier}\.[0-9]+
 bool true|false
 
@@ -72,87 +72,95 @@ appel \\mbox
 
 in \\in
 
+emptyset \\emptyset
+
 endAlgo \\end\{algo\}
 
 %%
 
-{debutAlgo} {debut = 1;return DEBUTALGO;}
+{debutAlgo} {debut = 1;printf("DEBUT ALGO\n");return DEBUTALGO;}
 
-{false} {return FALSE;}
-{true} {return TRUE;}
-{boolean} {return BOOL;}
-{integer} {return ENTIER;}
-{complex} {return FLOAT;}
+{false} {if(debut){printf("FALSE\n");return FALSE;}}
+{true} {if(debut){printf("true\n");return TRUE;}}
+{boolean} {if(debut){printf("booolean\n");return BOOL;}}
+{integer} {if(debut){printf("integer\n");return ENTIER;}}
+{complex} {if(debut){printf("complex\n");return FLOAT;}}
 
-{in} {return IN;}
-{kwto} {return KWTO;}
+{in} {if(debut){printf("in\n");return IN;}}
+{kwto} {if(debut){printf("kwto\n");return KWTO;}}
 
-{ou} {return OU;}
-{et} {return ET;}
-{not} {return NOT}
-{GrandEgale} {return GRANDEGALE;}
-{PetitEgale} {return PETITEGALE;}
-{different} {return DIFFERTENT;}
+{ou} {if(debut){printf("ou\n");return OU;}}
+{et} {if(debut){printf("et\n");return ET;}}
+{not} {if(debut){printf("not\n");return NOT;}}
+{GrandEgale} {if(debut){printf("grandegale\n");return GRANDEGALE;}}
+{PetitEgale} {if(debut){printf("petitegale\n");return PETITEGALE;}}
+{different} {if(debut){printf("different\n");return DIFFERENT;}}
 
-
-
-{parOuvre} {if(debut==1)return PAROUVRE;}
-{parFerme} {if(debut==1)return PARFERME;}
-{accOuvre} {if(debut==1)return ACCOUVRE;}
-{accFerme} {if(debut==1)return ACCFERME;}
-{dollar} {if(debut==1)return DOLLAR;}
+{emptyset} {if(debut){printf("Emptyset\n");return EMPTYSET;}}
 
 
+{parOuvre} {if(debut){printf("parouvre\n");return PAROUVRE;}}
+{parFerme} {if(debut){printf("parferme\n");return PARFERME;}}
+{accOuvre} {if(debut){printf("accouvre\n");return ACCOUVRE;}}
+{accFerme} {if(debut){printf("accFerme\n");return ACCFERME;}}
+{dollar} {if(debut){printf("dollar\n");return DOLLAR;}}
 
-{constant} {return CONSTANT;}
-{input} {return INPUT;}
-{output} {return OUTPUT;}
-{global} {return GLOBAL;}
-{local} {return LOCAL;}
 
-{finDeclarations} {return FINDECLARATION}
 
-{while}  {if(debut==1)return WHILE;}
-{repeat} {if(debut==1)return REPEAT;}
-{for}    {if(debut==1)return FOR;}
-{if}     {if(debut==1)return IF;}
-{elseIf} {if(debut==1)return EIF;}
+{constant} {if(debut){printf("constant\n");return CONSTANT;}}
+{input} {if(debut){printf("intput\n");return INPUT;}}
+{output} {if(debut){printf("output\n");return OUTPUT;}}
+{global} {if(debut){printf("global\n");return GLOBAL;}}
+{local} {if(debut){printf("local\n");return LOCAL;}}
 
-{mult}  {if(debut==1)return MULT;}
-{plus}  {if(debut==1)return PLUS;}
-{moins} {if(debut==1)return MOINS;}
-{puiss} {if(debut==1)return PUISS;}
-{egale} {if(debut==1)return EGALE;}
+{finDeclarations} {if(debut){printf("FinDeclaration\n");return FINDESCRIPTION;}}
 
-{appel} {if(debut==1)return APPEL;}
+{while}  {if(debut){printf("while\n");return WHILE;}}
+{repeat} {if(debut){printf("repaet\n");return REPEAT;}}
+{for}    {if(debut){printf("for\n");return FOR;}}
+{if}     {if(debut){printf("if\n");return IF;}}
+{elseIf} {if(debut){printf("elseif\n");return EIF;}}
 
-{entier} {if(debut==1)return ENTIER;}
-{float} {if(debut==1)return FLOAT;}
-{bool}  {if(debut==1)return BOOL;}
+{mult}  {if(debut){printf("mult\n");return MULT;}}
+{plus}  {if(debut){printf("plus\n");return PLUS;}}
+{moins} {if(debut){printf("moins\n");return MOINS;}}
+{puiss} {if(debut){printf("puiss\n");return PUISS;}}
+{egale} {if(debut){printf("egale\n");return EGALE;}}
 
-{identifiant} {if(debut==1)return IDENTIFIANT;}
+{appel} {if(debut){printf("appel\n");return APPEL;}}
 
-{leftarrow} {return LEFTARROW;}
+{entier} {if(debut){printf("entier\n");return ENTIER;}}
+{float} {if(debut){printf("float\n");return FLOAT;}}
+{bool}  {if(debut){printf("bool\n");return BOOL;}}
 
-{finInstruction} {return FININSTRUCTION;}
+{identifiant} {if(debut){printf("identifiant\n");return IDENTIFIANT;}}
+
+{leftarrow} {if(debut){printf("leftarrow\n");return LEFTARROW;}}
+
+{finInstruction} {if(debut){printf("fininstruction\n");return FININSTRUCTION;}}
+
 
 . {printf("%s",yytext);}
 
-{endAlgo} { debut =0; return ENDALGO;}
+{endAlgo} { debut =0;printf("END ALGO\n");return ENDALGO;}
 %%
 
-int main(int argc, char * argv[]){
 
-	yyin=fopen(argv[1] ,"r");
+/*
+int main(int argc, char** argv){
 
-	if(yyin == NULL){
+	FILE * file = fopen(argv[1],"r");
 
-		printf("File: error\n");
-		exit(1);
+	if(file == NULL){
+
+		return 1;
+	
 	}
-	printf("Testing...");
+
+	yyin=file;
+
 	yylex();
 
-	return 0;
 
 }
+*/

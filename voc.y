@@ -1,19 +1,22 @@
 %{
-    #include <stdlib.h>
-    #include <stdio.h>
-    #include <string.h>
-    #include "lex.yy.c"
     
-    int yylex(void);
-    void yyerror(char *);
-    
+ 	#include <string.h>
+	#include <stdio.h>
+	#include <stdlib.h>
+
+	
+
+	void yyerror (char *s) {
+    	fprintf (stderr, "%s\n", s);
+	}
+/*	nodeType *opr(int oper, int nops, ... );	
+	nodeType *id(int i);
+	nodeType *con(int valeur);
+  */  
+   //	int ex(nodeType); 
 %}
 
-%union{
-    
-	codgen* codgenVal;
-    
-}
+
 ///////MOTS DE RESERVER
 %start		algorithme
 %token		DEBUTALGO ENDALGO
@@ -21,12 +24,12 @@
 %token		ACCOUVRE ACCFERME PAROUVRE PARFERME 
 %token		EMPTYSET 
 %token		CONSTANT INPUT OUTPUT GLOBAL 
-%token		LOCAL  
-%token		SCALAIRE 
+%token		LOCAL   
 %token		BOOL FLOAT ENTIER
 %token		PUISS MULT PLUS MOINS
 %token		IDENTIFIANT
 %token		OU ET GRANDEGALE PETITEGALE DIFFERENT 
+%token 		FALSE TRUE
 %token		LEFTARROW 
 %token		APPEL
 %token 		EGALE
@@ -36,7 +39,7 @@
 
 
  
-////////////SYMBOL
+///////////SYMBOL
 %left  '-' '+' '*' '%'
 %left  '(' ')' '{' '[' ']' '$' '}'
 %left  '\\'
@@ -44,9 +47,9 @@
 
 %union{
 
-	codgen* codegenVal;
-	int valeur;
-	int ENTIER;
+	//codgen* codegenVal;
+	//int valeur;
+	//int ENTIER;
 
 	
 
@@ -59,7 +62,7 @@
 
 %%
 
-algorithme:                  	DEBUTALGO func_part ENDALGO
+algorithme:                  	DEBUTALGO ACCOUVRE IDENTIFIANT ACCFERME func_part ENDALGO {printf("MATCH\n");}
 func_part:                   	declaration_list FINDESCRIPTION suite_description ;
 
 declaration_list:            	constant_list input_list output_list global_list local_list ;
@@ -107,23 +110,23 @@ declaration:                 declaration_val
                           |  declaration_cons
                           ;
 
-declaration_val:             SCALAIRE type_scalaire ;
+declaration_val:           IDENTIFIANT IN type_scalaire ;
 
 type_scalaire:              
 			ENTIER PUISS ACCOUVRE ENTIER ACCFERME
+			|ENTIER
 			;
 
 declaration_cons:            IDENTIFIANT EGALE valeur IN type_scalaire ;
 
 
-suite_description:        element_desc suite_description
-                          |	
+suite_description:        element_desc FININSTRUCTION suite_description
+                          |	element_desc
 			  ;
 
 element_desc :		  structure_controle
-			  | DOLLAR instruction DOLLAR FININSTRUCTION 
-			  ;
-
+					  | DOLLAR instruction DOLLAR 
+						;
 structure_controle : 				WHILE ACCOUVRE expr_bool ACCFERME  ACCOUVRE suite_description ACCFERME
 				   		|FOR ACCOUVRE DOLLAR affectation KWTO DOLLAR ENTIER DOLLAR ACCFERME ACCOUVRE suite_description ACCFERME
 
@@ -134,8 +137,8 @@ structure_controle : 				WHILE ACCOUVRE expr_bool ACCFERME  ACCOUVRE suite_descr
 affectation 	:				IDENTIFIANT LEFTARROW valeur
 						;	
 
-expr_bool	:				operand_bool bool_op operand_bool		
-						|NOT expr_bool	
+expr_bool	:			DOLLAR operand_bool bool_op operand_bool DOLLAR		
+						|DOLLAR  NOT expr_bool DOLLAR
 						;
 
 operand_bool 				:	IDENTIFIANT
@@ -154,7 +157,7 @@ instruction :
 						IDENTIFIANT LEFTARROW expression
 						;
 
-expression:  					valeur 
+expression:  			valeur 
 		  				| operand operateur operand
 						| APPEL ACCOUVRE IDENTIFIANT PAROUVRE expression PARFERME ACCFERME 
 						;
@@ -171,27 +174,28 @@ operateur :					MULT
 						;
 	  
 valeur:
-						ENTIER 
+						ENTIER
+						|TRUE
+				 		|FALSE
 						;
 %%
 
-int main(void)
-    {
-                        yylex();
-    }
+extern FILE *yyin;
 
-yylex()
-    {
-                        int c;
-                        c=getchar();
-                        if(isdigit(c))
-                            {
-                                yylval=c-'0';
-                                return CHIFFRE;
-                            }
-                        return c;
-    
-    }
+int main(int argc, char** argv){
+
+	FILE *file = fopen(argv[1], "r");
+	if(file == NULL){
+
+		printf("File Error!\n");
+		return 1;
+
+	}
+	yyin = file;
+	yyparse();
+	fclose(file);
+
+}
 
 
 

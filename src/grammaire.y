@@ -18,7 +18,7 @@
 
 
 ///////MOTS DE RESERVER
-%start		algorithme
+%start		compilateur
 %token		DEBUTALGO ENDALGO
 %token		FINDESCRIPTION FININSTRUCTION	
 %token		ACCOUVRE ACCFERME PAROUVRE PARFERME 
@@ -62,7 +62,12 @@
 
 %%
 
+compilateur : 		algorithme compilateur
+					|algorithme
+					;
+
 algorithme:                  	DEBUTALGO ACCOUVRE IDENTIFIANT ACCFERME func_part ENDALGO {printf("MATCH\n");}
+		  			;
 func_part:                   	declaration_list FINDESCRIPTION suite_description ;
 
 declaration_list:            	constant_list input_list output_list global_list local_list ;

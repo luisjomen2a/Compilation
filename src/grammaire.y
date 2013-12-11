@@ -125,13 +125,14 @@ type_scalaire:
 declaration_cons:            IDENTIFIANT EGALE valeur IN type_scalaire ;
 
 
-suite_description:        element_desc FININSTRUCTION suite_description
+suite_description:       element_desc FININSTRUCTION suite_description
                           |	element_desc
 			  ;
 
 element_desc :		  structure_controle
 					  | DOLLAR instruction DOLLAR 
-						;
+					  ;
+
 structure_controle : 				WHILE ACCOUVRE expr_bool ACCFERME  ACCOUVRE suite_description ACCFERME
 				   		|FOR ACCOUVRE DOLLAR affectation KWTO DOLLAR ENTIER DOLLAR ACCFERME ACCOUVRE suite_description ACCFERME
 

@@ -3,17 +3,20 @@
  	#include <string.h>
 	#include <stdio.h>
 	#include <stdlib.h>
+	#include "src/symbol.h"
 
+	#define MULTVAL 1
+	#define PLUSVAL 2
+	#define MOINSVAL 3
+	#define PUISSVAL 4
 	
+	struct symbol* tds = NULL;
+ 	int tds_taille = 0;
 
 	void yyerror (char *s) {
     	fprintf (stderr, "%s\n", s);
 	}
-/*	nodeType *opr(int oper, int nops, ... );	
-	nodeType *id(int i);
-	nodeType *con(int valeur);
-  */  
-   //	int ex(nodeType); 
+
 %}
 
 
@@ -47,18 +50,19 @@
 
 %union{
 
-	//codgen* codegenVal;
-	//int valeur;
-	//int ENTIER;
-
-	
+  char* string;
+  int value;
+  struct symbol* symbol;
+  struct {
+    struct symbol* addr;
+    struct quad* code;
+  } codegen;	
+		
 
 }
 
-
-
-
-
+%type <value> ENTIER operateur
+%type <string> IDENTIFIANT
 
 %%
 
@@ -173,16 +177,14 @@ operand :
 						|IDENTIFIANT
 						| PAROUVRE expression PARFERME 
 						;
-operateur :					MULT 
-	  					|PLUS
-						|MOINS
-						|PUISS
+operateur :				MULT {$$ = MULTVAL;} 
+	  					|PLUS {$$ = PLUSVAL;}
+						|MOINS {$$ = MOINSVAL;}
+						|PUISS {$$ = PUISSVAL;}
 						;
 	  
 valeur:
 						ENTIER
-						|TRUE
-				 		|FALSE
 						;
 %%
 

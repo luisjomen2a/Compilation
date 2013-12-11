@@ -131,20 +131,23 @@ typedef union YYSTYPE
 {
 
 /* Line 2068 of yacc.c  */
-#line 48 "src/grammaire.y"
+#line 51 "src/grammaire.y"
 
 
-	//codgen* codegenVal;
-	//int valeur;
-	//int ENTIER;
-
-	
+  char* string;
+  int value;
+  struct symbol* symbol;
+  struct {
+    struct symbol* addr;
+    struct quad* code;
+  } codegen;	
+		
 
 
 
 
 /* Line 2068 of yacc.c  */
-#line 148 "y.tab.h"
+#line 151 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

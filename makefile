@@ -1,13 +1,15 @@
 
 
 
-compilateur: y.tab.o lex.yy.o symbol.o
-		gcc -o compilateur y.tab.o lex.yy.o symbol.o -ll -ly
+compilateur: y.tab.o lex.yy.o symbol.o quad.o
+		gcc -o compilateur y.tab.o lex.yy.o symbol.o quad.o -ll -ly
 		mv compilateur bin/
 		mv *.o obj/
 		mv *.c src/
 		mv *.h src/
 
+quad.o : src/quad.c src/quad.h
+	gcc -c src/quad.c
 
 symbol.o : src/symbol.c src/symbol.h
 	gcc -c src/symbol.c

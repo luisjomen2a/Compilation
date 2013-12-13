@@ -6,6 +6,7 @@ struct quad {
   struct quad*   next;
 };
 
+
 struct quad* quad_gen(char, struct symbol*, struct symbol*, struct symbol*);
 void         quad_add(struct quad**, struct quad*);
 void         quad_print(struct quad*);

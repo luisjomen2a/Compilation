@@ -572,10 +572,14 @@ char *yytext;
 #line 2 "src/vocabulaire.l"
 #include <stdlib.h>
 #include <stdio.h>
-#include "y.tab.h"
+#include <string.h>
+#include "src/symbol.h"
+#include "src/y.tab.h"
 int debut = 0;
 
-#line 579 "lex.yy.c"
+	extern struct symbol * tds;
+
+#line 583 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -762,10 +766,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 79 "src/vocabulaire.l"
+#line 83 "src/vocabulaire.l"
 
 
-#line 769 "lex.yy.c"
+#line 773 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -850,235 +854,251 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 81 "src/vocabulaire.l"
+#line 85 "src/vocabulaire.l"
 {debut = 1;printf("DEBUT ALGO\n");return DEBUTALGO;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 83 "src/vocabulaire.l"
+#line 87 "src/vocabulaire.l"
 {if(debut){printf("FALSE\n");return FALSE;}}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 84 "src/vocabulaire.l"
+#line 88 "src/vocabulaire.l"
 {if(debut){printf("true\n");return TRUE;}}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 85 "src/vocabulaire.l"
+#line 89 "src/vocabulaire.l"
 {if(debut){printf("booolean\n");return BOOL;}}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 86 "src/vocabulaire.l"
+#line 90 "src/vocabulaire.l"
 {if(debut){printf("integer\n");return ENTIER;}}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 87 "src/vocabulaire.l"
+#line 91 "src/vocabulaire.l"
 {if(debut){printf("complex\n");return FLOAT;}}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 89 "src/vocabulaire.l"
+#line 93 "src/vocabulaire.l"
 {if(debut){printf("in\n");return IN;}}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 90 "src/vocabulaire.l"
+#line 94 "src/vocabulaire.l"
 {if(debut){printf("kwto\n");return KWTO;}}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 92 "src/vocabulaire.l"
+#line 96 "src/vocabulaire.l"
 {if(debut){printf("ou\n");return OU;}}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 93 "src/vocabulaire.l"
+#line 97 "src/vocabulaire.l"
 {if(debut){printf("et\n");return ET;}}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 94 "src/vocabulaire.l"
+#line 98 "src/vocabulaire.l"
 {if(debut){printf("not\n");return NOT;}}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 95 "src/vocabulaire.l"
+#line 99 "src/vocabulaire.l"
 {if(debut){printf("grandegale\n");return GRANDEGALE;}}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 96 "src/vocabulaire.l"
+#line 100 "src/vocabulaire.l"
 {if(debut){printf("petitegale\n");return PETITEGALE;}}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 97 "src/vocabulaire.l"
+#line 101 "src/vocabulaire.l"
 {if(debut){printf("different\n");return DIFFERENT;}}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 99 "src/vocabulaire.l"
+#line 103 "src/vocabulaire.l"
 {if(debut){printf("Emptyset\n");return EMPTYSET;}}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 102 "src/vocabulaire.l"
+#line 106 "src/vocabulaire.l"
 {if(debut){printf("parouvre\n");return PAROUVRE;}}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 103 "src/vocabulaire.l"
+#line 107 "src/vocabulaire.l"
 {if(debut){printf("parferme\n");return PARFERME;}}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 104 "src/vocabulaire.l"
+#line 108 "src/vocabulaire.l"
 {if(debut){printf("accouvre\n");return ACCOUVRE;}}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 105 "src/vocabulaire.l"
+#line 109 "src/vocabulaire.l"
 {if(debut){printf("accFerme\n");return ACCFERME;}}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 106 "src/vocabulaire.l"
+#line 110 "src/vocabulaire.l"
 {if(debut){printf("dollar\n");return DOLLAR;}}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 110 "src/vocabulaire.l"
+#line 114 "src/vocabulaire.l"
 {if(debut){printf("constant\n");return CONSTANT;}}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 111 "src/vocabulaire.l"
+#line 115 "src/vocabulaire.l"
 {if(debut){printf("intput\n");return INPUT;}}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 112 "src/vocabulaire.l"
+#line 116 "src/vocabulaire.l"
 {if(debut){printf("output\n");return OUTPUT;}}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 113 "src/vocabulaire.l"
+#line 117 "src/vocabulaire.l"
 {if(debut){printf("global\n");return GLOBAL;}}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 114 "src/vocabulaire.l"
+#line 118 "src/vocabulaire.l"
 {if(debut){printf("local\n");return LOCAL;}}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 116 "src/vocabulaire.l"
+#line 120 "src/vocabulaire.l"
 {if(debut){printf("FinDeclaration\n");return FINDESCRIPTION;}}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 118 "src/vocabulaire.l"
+#line 122 "src/vocabulaire.l"
 {if(debut){printf("while\n");return WHILE;}}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 119 "src/vocabulaire.l"
+#line 123 "src/vocabulaire.l"
 {if(debut){printf("repaet\n");return REPEAT;}}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 120 "src/vocabulaire.l"
+#line 124 "src/vocabulaire.l"
 {if(debut){printf("for\n");return FOR;}}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 121 "src/vocabulaire.l"
+#line 125 "src/vocabulaire.l"
 {if(debut){printf("if\n");return IF;}}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 122 "src/vocabulaire.l"
+#line 126 "src/vocabulaire.l"
 {if(debut){printf("elseif\n");return EIF;}}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 124 "src/vocabulaire.l"
+#line 128 "src/vocabulaire.l"
 {if(debut){printf("mult\n");return MULT;}}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 125 "src/vocabulaire.l"
+#line 129 "src/vocabulaire.l"
 {if(debut){printf("plus\n");return PLUS;}}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 126 "src/vocabulaire.l"
+#line 130 "src/vocabulaire.l"
 {if(debut){printf("moins\n");return MOINS;}}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 127 "src/vocabulaire.l"
+#line 131 "src/vocabulaire.l"
 {if(debut){printf("puiss\n");return PUISS;}}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 128 "src/vocabulaire.l"
+#line 132 "src/vocabulaire.l"
 {if(debut){printf("egale\n");return EGALE;}}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 130 "src/vocabulaire.l"
+#line 134 "src/vocabulaire.l"
 {if(debut){printf("appel\n");return APPEL;}}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 132 "src/vocabulaire.l"
-{if(debut){printf("entier\n");return ENTIER;}}
+#line 136 "src/vocabulaire.l"
+{if(debut){printf("entier\n");yylval.value = atoi(yytext);return ENTIER;}}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 133 "src/vocabulaire.l"
+#line 137 "src/vocabulaire.l"
 {if(debut){printf("float\n");return FLOAT;}}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 134 "src/vocabulaire.l"
+#line 138 "src/vocabulaire.l"
 {if(debut){printf("bool\n");return BOOL;}}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 136 "src/vocabulaire.l"
-{if(debut){printf("identifiant\n");return IDENTIFIANT;}}
+#line 140 "src/vocabulaire.l"
+{
+				struct symbol* id;
+				if(debut){printf("identifiant\n");
+
+
+				id = symbol_lookup(tds , yytext);
+
+			
+				if(id  == NULL){
+
+					symbol_add(&tds, yytext);
+
+				}				
+
+				yylval.string = strdup(yytext);
+				 return IDENTIFIANT;}
+				}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 138 "src/vocabulaire.l"
+#line 158 "src/vocabulaire.l"
 {if(debut){printf("leftarrow\n");return LEFTARROW;}}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 140 "src/vocabulaire.l"
+#line 160 "src/vocabulaire.l"
 {if(debut){printf("fininstruction\n");return FININSTRUCTION;}}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 143 "src/vocabulaire.l"
+#line 163 "src/vocabulaire.l"
 {printf("%s",yytext);}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 145 "src/vocabulaire.l"
+#line 165 "src/vocabulaire.l"
 { debut =0;printf("END ALGO\n");return ENDALGO;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 146 "src/vocabulaire.l"
+#line 166 "src/vocabulaire.l"
 ECHO;
 	YY_BREAK
-#line 1082 "lex.yy.c"
+#line 1102 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2076,7 +2096,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 146 "src/vocabulaire.l"
+#line 166 "src/vocabulaire.l"
 
 
 

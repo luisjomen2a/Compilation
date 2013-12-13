@@ -1,8 +1,12 @@
 %{
 #include <stdlib.h>
 #include <stdio.h>
-#include "y.tab.h"
+#include <string.h>
+#include "src/symbol.h"
+#include "src/y.tab.h"
 int debut = 0;
+
+	extern struct symbol * tds;
 
 %}
 
@@ -129,11 +133,27 @@ endAlgo \\end\{algo\}
 
 {appel} {if(debut){printf("appel\n");return APPEL;}}
 
-{entier} {if(debut){printf("entier\n");return ENTIER;}}
+{entier} {if(debut){printf("entier\n");yylval.value = atoi(yytext);return ENTIER;}}
 {float} {if(debut){printf("float\n");return FLOAT;}}
 {bool}  {if(debut){printf("bool\n");return BOOL;}}
 
-{identifiant} {if(debut){printf("identifiant\n");return IDENTIFIANT;}}
+{identifiant} {
+				struct symbol* id;
+				if(debut){printf("identifiant\n");
+
+
+				id = symbol_lookup(tds , yytext);
+
+			
+				if(id  == NULL){
+
+					symbol_add(&tds, yytext);
+
+				}				
+
+				yylval.string = strdup(yytext);
+				 return IDENTIFIANT;}
+				}
 
 {leftarrow} {if(debut){printf("leftarrow\n");return LEFTARROW;}}
 

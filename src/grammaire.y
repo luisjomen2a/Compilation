@@ -4,6 +4,7 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include "src/symbol.h"
+	#include "src/quad.h"
 
 	#define MULTVAL 1
 	#define PLUSVAL 2
@@ -61,8 +62,9 @@
 
 }
 
-%type <value> ENTIER operateur FLOAT TRUE
+%type <value> ENTIER operateur FALSE TRUE valeur
 %type <string> IDENTIFIANT
+%type <codegen> expression
 
 %%
 
@@ -201,16 +203,22 @@ instruction :
 					IDENTIFIANT LEFTARROW expression
 					;
 
-expression : 		valeur 
-		  			| operand operateur operand {//Remplir quad avec operateur
+expression : 		valeur {}
+		  			| operand operateur operand {
+													
 
-													}
+												}
 					| APPEL ACCOUVRE IDENTIFIANT PAROUVRE expression PARFERME ACCFERME 
 					;
 operand :				
 
-					valeur
-					|IDENTIFIANT
+					valeur {$$.addr = symbol_newtemp(&tds , &temp_number);
+
+							$$.adr -> value = $1;
+					
+							$$.code = NULL
+			}
+					|IDENTIFIANT { $$.addr = symbol_lookup(tds,&1);}
 					| PAROUVRE expression PARFERME 
 					;
 
@@ -221,9 +229,9 @@ operateur :			MULT {$$ = MULTVAL;}
 					;
 	  
 valeur :
-					ENTIER
-					|FLOAT
-					|TRUE
+					ENTIER {$$ = $1;}
+					|FALSE {$$ = $1}
+					|TRUE {}
 					;
 %%
 

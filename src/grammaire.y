@@ -3,8 +3,10 @@
  	#include <string.h>
 	#include <stdio.h>
 	#include <stdlib.h>
+	#include "src/mips.h"
 	#include "src/symbol.h"
 	#include "src/quad.h"
+
 
 	#define MULTVAL '*'
 	#define PLUSVAL '+'
@@ -83,7 +85,10 @@ compilateur :                                         algorithme compilateur
                                             ;
 
 algorithme: 
-		  DEBUTALGO ACCOUVRE IDENTIFIANT ACCFERME func_part ENDALGO {printf("MATCH\n");symbol_print(tds);}
+		  DEBUTALGO ACCOUVRE IDENTIFIANT ACCFERME func_part ENDALGO {printf("MATCH\n");symbol_print(tds);
+
+//	quadGenreate(NULL,1);
+}
                                             ;
 
 func_part: 
@@ -206,7 +211,13 @@ bool_op  :                                              OU             {}
                                             |           DIFFERENT      {}
                                             ;
 
-instruction :                                           IDENTIFIANT LEFTARROW expression       {quad_print($3.code);}
+instruction :                                           IDENTIFIANT LEFTARROW expression{
+																	struct symbol* id;
+																	id = symbol_lookup(tds,$1);
+																	id->value = $3.addr->value;
+											
+																	quad_print($3.code);		
+																	quadGenreate($3.code,0);	}
                                             ;
 
 expression : 		valeur { $$.addr = symbol_newtemp(&tds , &tds_taille);
@@ -259,18 +270,35 @@ extern FILE *yyin;
 int main(int argc, char** argv){
 
 	FILE *file = fopen(argv[1], "r");
+	FILE *res = fopen("mips.s","w");
+
+	fprintf(res,"\n.data\n");
+ 
+ 	fprintf(res,"\nnewline:\n");
+  	fprintf(res,".asciiz \"\\n\" ");
+
+
+	fprintf(res,"\n.text\n\nmain:\n\n");
+	
+
 	if(file == NULL){
 
 		printf("File Error!\n");
 		return 1;
 
 	}
-	
 
-	
+		
 	yyin = file;
 	yyparse();
+
+	
 	fclose(file);
+	fclose(res);
+
+
+
+
 
 }
 

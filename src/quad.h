@@ -1,3 +1,5 @@
+#ifndef _QUAD_H_
+#define _QUAD_H_
 struct quad {
   char op;
   struct symbol* arg1;
@@ -10,3 +12,5 @@ struct quad {
 struct quad* quad_gen(char, struct symbol*, struct symbol*, struct symbol*);
 void         quad_add(struct quad**, struct quad*);
 void         quad_print(struct quad*);
+
+#endif

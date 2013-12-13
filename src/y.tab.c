@@ -72,8 +72,10 @@
  	#include <string.h>
 	#include <stdio.h>
 	#include <stdlib.h>
+	#include "src/mips.h"
 	#include "src/symbol.h"
 	#include "src/quad.h"
+
 
 	#define MULTVAL '*'
 	#define PLUSVAL '+'
@@ -97,7 +99,7 @@
 
 
 /* Line 268 of yacc.c  */
-#line 101 "y.tab.c"
+#line 103 "y.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -218,7 +220,7 @@ typedef union YYSTYPE
 {
 
 /* Line 293 of yacc.c  */
-#line 59 "src/grammaire.y"
+#line 61 "src/grammaire.y"
 
 
   char* string;
@@ -234,7 +236,7 @@ typedef union YYSTYPE
 
 
 /* Line 293 of yacc.c  */
-#line 238 "y.tab.c"
+#line 240 "y.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -246,7 +248,7 @@ typedef union YYSTYPE
 
 
 /* Line 343 of yacc.c  */
-#line 250 "y.tab.c"
+#line 252 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -562,15 +564,15 @@ static const yytype_int8 yyrhs[] =
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
-       0,    81,    81,    82,    86,    90,    95,    99,   103,   104,
-     108,   112,   113,   117,   121,   122,   127,   132,   133,   137,
-     140,   142,   145,   149,   150,   154,   155,   160,   163,   164,
-     167,   175,   176,   178,   179,   182,   183,   185,   186,   187,
-     191,   193,   194,   197,   198,   200,   202,   203,   204,   205,
-     206,   209,   212,   216,   227,   233,   236,   244,   245,   246,
-     247,   251,   252,   253
+       0,    83,    83,    84,    88,    95,   100,   104,   108,   109,
+     113,   117,   118,   122,   126,   127,   132,   137,   138,   142,
+     145,   147,   150,   154,   155,   159,   160,   165,   168,   169,
+     172,   180,   181,   183,   184,   187,   188,   190,   191,   192,
+     196,   198,   199,   202,   203,   205,   207,   208,   209,   210,
+     211,   214,   223,   227,   238,   244,   247,   255,   256,   257,
+     258,   262,   263,   264
 };
 #endif
 
@@ -1612,28 +1614,31 @@ yyreduce:
         case 4:
 
 /* Line 1806 of yacc.c  */
-#line 86 "src/grammaire.y"
-    {printf("MATCH\n");symbol_print(tds);}
+#line 88 "src/grammaire.y"
+    {printf("MATCH\n");symbol_print(tds);
+
+//	quadGenreate(NULL,1);
+}
     break;
 
   case 5:
 
 /* Line 1806 of yacc.c  */
-#line 90 "src/grammaire.y"
+#line 95 "src/grammaire.y"
     {}
     break;
 
   case 27:
 
 /* Line 1806 of yacc.c  */
-#line 160 "src/grammaire.y"
+#line 165 "src/grammaire.y"
     {  printf("ID: %s\n",(yyvsp[(1) - (3)].string));}
     break;
 
   case 30:
 
 /* Line 1806 of yacc.c  */
-#line 167 "src/grammaire.y"
+#line 172 "src/grammaire.y"
     {  
 				struct symbol* id;
 				id = symbol_lookup(tds , (yyvsp[(1) - (5)].string));
@@ -1645,49 +1650,55 @@ yyreduce:
   case 46:
 
 /* Line 1806 of yacc.c  */
-#line 202 "src/grammaire.y"
+#line 207 "src/grammaire.y"
     {}
     break;
 
   case 47:
 
 /* Line 1806 of yacc.c  */
-#line 203 "src/grammaire.y"
+#line 208 "src/grammaire.y"
     {}
     break;
 
   case 48:
 
 /* Line 1806 of yacc.c  */
-#line 204 "src/grammaire.y"
+#line 209 "src/grammaire.y"
     {}
     break;
 
   case 49:
 
 /* Line 1806 of yacc.c  */
-#line 205 "src/grammaire.y"
+#line 210 "src/grammaire.y"
     {}
     break;
 
   case 50:
 
 /* Line 1806 of yacc.c  */
-#line 206 "src/grammaire.y"
+#line 211 "src/grammaire.y"
     {}
     break;
 
   case 51:
 
 /* Line 1806 of yacc.c  */
-#line 209 "src/grammaire.y"
-    {quad_print((yyvsp[(3) - (3)].codegen).code);}
+#line 214 "src/grammaire.y"
+    {
+																	struct symbol* id;
+																	id = symbol_lookup(tds,(yyvsp[(1) - (3)].string));
+																	id->value = (yyvsp[(3) - (3)].codegen).addr->value;
+											
+																	quad_print((yyvsp[(3) - (3)].codegen).code);		
+																	quadGenreate((yyvsp[(3) - (3)].codegen).code,0);	}
     break;
 
   case 52:
 
 /* Line 1806 of yacc.c  */
-#line 212 "src/grammaire.y"
+#line 223 "src/grammaire.y"
     { (yyval.codegen).addr = symbol_newtemp(&tds , &tds_taille);
 							(yyval.codegen).addr->value = (yyvsp[(1) - (1)].value);
 							(yyval.codegen).code = NULL;							
@@ -1697,7 +1708,7 @@ yyreduce:
   case 53:
 
 /* Line 1806 of yacc.c  */
-#line 216 "src/grammaire.y"
+#line 227 "src/grammaire.y"
     { struct quad* new;
 												  (yyval.codegen).addr = symbol_newtemp(&tds , &tds_taille);
 											      new = quad_gen((yyvsp[(2) - (3)].value),(yyvsp[(1) - (3)].codegen).addr, (yyvsp[(3) - (3)].codegen).addr , (yyval.codegen).addr);
@@ -1710,7 +1721,7 @@ yyreduce:
   case 54:
 
 /* Line 1806 of yacc.c  */
-#line 227 "src/grammaire.y"
+#line 238 "src/grammaire.y"
     {(yyval.codegen).addr = symbol_newtemp(&tds , &tds_taille);
 
 							(yyval.codegen).addr -> value = (yyvsp[(1) - (1)].value);
@@ -1722,7 +1733,7 @@ yyreduce:
   case 55:
 
 /* Line 1806 of yacc.c  */
-#line 233 "src/grammaire.y"
+#line 244 "src/grammaire.y"
     { 	(yyval.codegen).addr = symbol_lookup(tds,(yyvsp[(1) - (1)].string));
 										(yyval.codegen).code = NULL;
 									}
@@ -1731,7 +1742,7 @@ yyreduce:
   case 56:
 
 /* Line 1806 of yacc.c  */
-#line 236 "src/grammaire.y"
+#line 247 "src/grammaire.y"
     {
 
 										(yyval.codegen).addr = (yyvsp[(2) - (3)].codegen).addr;
@@ -1743,56 +1754,56 @@ yyreduce:
   case 57:
 
 /* Line 1806 of yacc.c  */
-#line 244 "src/grammaire.y"
+#line 255 "src/grammaire.y"
     {(yyval.value) = MULTVAL;}
     break;
 
   case 58:
 
 /* Line 1806 of yacc.c  */
-#line 245 "src/grammaire.y"
+#line 256 "src/grammaire.y"
     {(yyval.value) = PLUSVAL;}
     break;
 
   case 59:
 
 /* Line 1806 of yacc.c  */
-#line 246 "src/grammaire.y"
+#line 257 "src/grammaire.y"
     {(yyval.value) = MOINSVAL;}
     break;
 
   case 60:
 
 /* Line 1806 of yacc.c  */
-#line 247 "src/grammaire.y"
+#line 258 "src/grammaire.y"
     {(yyval.value) = PUISSVAL;}
     break;
 
   case 61:
 
 /* Line 1806 of yacc.c  */
-#line 251 "src/grammaire.y"
+#line 262 "src/grammaire.y"
     {(yyval.value) = (yyvsp[(1) - (1)].value);}
     break;
 
   case 62:
 
 /* Line 1806 of yacc.c  */
-#line 252 "src/grammaire.y"
+#line 263 "src/grammaire.y"
     {(yyval.value) = (yyvsp[(1) - (1)].value);}
     break;
 
   case 63:
 
 /* Line 1806 of yacc.c  */
-#line 253 "src/grammaire.y"
+#line 264 "src/grammaire.y"
     {(yyval.value) = (yyvsp[(1) - (1)].value);}
     break;
 
 
 
 /* Line 1806 of yacc.c  */
-#line 1796 "y.tab.c"
+#line 1807 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2023,7 +2034,7 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 255 "src/grammaire.y"
+#line 266 "src/grammaire.y"
 
 
 extern FILE *yyin;
@@ -2031,18 +2042,35 @@ extern FILE *yyin;
 int main(int argc, char** argv){
 
 	FILE *file = fopen(argv[1], "r");
+	FILE *res = fopen("mips.s","w");
+
+	fprintf(res,"\n.data\n");
+ 
+ 	fprintf(res,"\nnewline:\n");
+  	fprintf(res,".asciiz \"\\n\" ");
+
+
+	fprintf(res,"\n.text\n\nmain:\n\n");
+	
+
 	if(file == NULL){
 
 		printf("File Error!\n");
 		return 1;
 
 	}
-	
 
-	
+		
 	yyin = file;
 	yyparse();
+
+	
 	fclose(file);
+	fclose(res);
+
+
+
+
 
 }
 

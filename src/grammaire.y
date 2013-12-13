@@ -61,131 +61,170 @@
 
 }
 
-%type <value> ENTIER operateur
+%type <value> ENTIER operateur FLOAT TRUE
 %type <string> IDENTIFIANT
 
 %%
 
-compilateur : 		algorithme compilateur
+compilateur : 		
+					algorithme compilateur
 					|algorithme
 					;
 
-algorithme:                  	DEBUTALGO ACCOUVRE IDENTIFIANT ACCFERME func_part ENDALGO {printf("MATCH\n");}
+algorithme :			
+		  			DEBUTALGO ACCOUVRE IDENTIFIANT ACCFERME func_part ENDALGO {printf("MATCH\n");}
 		  			;
-func_part:                   	declaration_list FINDESCRIPTION suite_description ;
 
-declaration_list:            	constant_list input_list output_list global_list local_list ;
+func_part :			
+		 			declaration_list FINDESCRIPTION suite_description 
+		 			;
 
-constant_list:            	 CONSTANT constantbis 
-				;
+declaration_list :	
+					constant_list input_list output_list global_list local_list 
+					;
 
-constantbis:			declaration
-				|ACCOUVRE DOLLAR EMPTYSET DOLLAR ACCFERME;
+constant_list :		
+					CONSTANT constantbis 
+					;
+
+constantbis :		
+		   			declaration
+					|ACCOUVRE DOLLAR EMPTYSET DOLLAR ACCFERME
+					;
 
 
-input_list: 	            	INPUT inputbis
-				;
+input_list : 	    
+	  				INPUT inputbis
+					;
 
-inputbis:			declaration  
-		  		|ACCOUVRE DOLLAR EMPTYSET DOLLAR ACCFERME;
+inputbis :			
+					declaration  
+		  			|ACCOUVRE DOLLAR EMPTYSET DOLLAR ACCFERME
+					;
 
-output_list:			OUTPUT outputbis
-				;                	
+output_list :			
+		   			OUTPUT outputbis
+					;                	
 
-outputbis:			 declaration
-		  		|ACCOUVRE DOLLAR EMPTYSET DOLLAR ACCFERME;
+outputbis :			
+					declaration
+		  			|ACCOUVRE DOLLAR EMPTYSET DOLLAR ACCFERME
+					;
 				
 
-global_list:                	GLOBAL globalbis
-				;
+global_list :         
+		   			GLOBAL globalbis
+					;
 
-globalbis:			declaration
-		   		|ACCOUVRE DOLLAR EMPTYSET DOLLAR ACCFERME;
+globalbis :			
+		 			declaration
+		   			|ACCOUVRE DOLLAR EMPTYSET DOLLAR ACCFERME
+					;
 
-local_list:                 	LOCAL localbis;
+local_list :         
+		  			LOCAL localbis
+					;
 
-localbis:			declaration 
-		  		|ACCOUVRE DOLLAR EMPTYSET DOLLAR ACCFERME;
+localbis :			
+					declaration 
+		  			|ACCOUVRE DOLLAR EMPTYSET DOLLAR ACCFERME
+					;
 
-declaration :		ACCOUVRE DOLLAR suite_declaration DOLLAR ACCFERME
-			;
-
-
-suite_declaration:        |  declaration ',' suite_declaration
-                          |  declaration
-                          ;
-
-declaration:                 declaration_val
-                          |  declaration_cons
-                          ;
-
-declaration_val:           IDENTIFIANT IN type_scalaire ;
-
-type_scalaire:              
-			ENTIER PUISS ACCOUVRE ENTIER ACCFERME
-			|ENTIER
-			;
-
-declaration_cons:            IDENTIFIANT EGALE valeur IN type_scalaire ;
+declaration :		
+					ACCOUVRE DOLLAR suite_declaration DOLLAR ACCFERME
+					;
 
 
-suite_description:       element_desc FININSTRUCTION suite_description
-                          |	element_desc
-			  ;
+suite_declaration :	
+				 	declaration ',' suite_declaration
+                    |declaration
+					;
 
-element_desc :		  structure_controle
-					  | DOLLAR instruction DOLLAR 
-					  ;
+declaration : 
+		   			declaration_val
+					|declaration_cons
+					;
 
-structure_controle : 				WHILE ACCOUVRE expr_bool ACCFERME  ACCOUVRE suite_description ACCFERME
-				   		|FOR ACCOUVRE DOLLAR affectation KWTO DOLLAR ENTIER DOLLAR ACCFERME ACCOUVRE suite_description ACCFERME
+declaration_val :
+			   		IDENTIFIANT IN type_scalaire 
+					;
 
-						|REPEAT ACCOUVRE expr_bool ACCFERME ACCOUVRE suite_description ACCFERME
-						|IF ACCOUVRE expr_bool ACCFERME ACCOUVRE suite_description ACCFERME
-						|EIF ACCOUVRE expr_bool ACCFERME ACCOUVRE suite_description ACCFERME
-						 ;
-affectation 	:				IDENTIFIANT LEFTARROW valeur
-						;	
+type_scalaire :	
+			 		ENTIER PUISS ACCOUVRE ENTIER ACCFERME
+					|ENTIER
+					;
 
-expr_bool	:			DOLLAR operand_bool bool_op operand_bool DOLLAR		
-						|DOLLAR  NOT expr_bool DOLLAR
-						;
+declaration_cons :   
+					IDENTIFIANT EGALE valeur IN type_scalaire
+					;
 
-operand_bool 				:	IDENTIFIANT
-			   			|valeur
-						|PAROUVRE expr_bool PARFERME
-						;
 
-bool_op 		:			OU
-		 				|ET
-						|GRANDEGALE
-						|PETITEGALE
-						|DIFFERENT
-						;
+suite_description :  
+		 			DOLLAR instruction DOLLAR FININSTRUCTION suite_description
+		 			|structure_controle suite_description
+                   	|element_desc
+					;
+
+element_desc :		structure_controle
+					|DOLLAR instruction DOLLAR 
+					;
+
+structure_controle :
+				   
+					WHILE ACCOUVRE expr_bool ACCFERME  ACCOUVRE suite_description ACCFERME
+				   	|FOR ACCOUVRE DOLLAR affectation KWTO DOLLAR ENTIER DOLLAR ACCFERME ACCOUVRE suite_description ACCFERME
+					|REPEAT ACCOUVRE expr_bool ACCFERME ACCOUVRE suite_description ACCFERME
+					|IF ACCOUVRE expr_bool ACCFERME ACCOUVRE suite_description ACCFERME
+					|EIF ACCOUVRE expr_bool ACCFERME ACCOUVRE suite_description ACCFERME
+					;
+affectation :
+			 		IDENTIFIANT LEFTARROW valeur
+					;	
+
+expr_bool :			DOLLAR operand_bool bool_op operand_bool DOLLAR		
+					|DOLLAR  NOT expr_bool DOLLAR
+					;
+
+operand_bool :		IDENTIFIANT
+			   		|valeur
+					|PAROUVRE expr_bool PARFERME
+					;
+
+bool_op :			OU
+		 			|ET
+					|GRANDEGALE
+					|PETITEGALE
+					|DIFFERENT
+					;
 						
 instruction : 			
-						IDENTIFIANT LEFTARROW expression
-						;
+					IDENTIFIANT LEFTARROW expression
+					;
 
-expression:  			valeur 
-		  				| operand operateur operand
-						| APPEL ACCOUVRE IDENTIFIANT PAROUVRE expression PARFERME ACCFERME 
-						;
+expression : 		valeur 
+		  			| operand operateur operand {//Remplir quad avec operateur
+
+													}
+					| APPEL ACCOUVRE IDENTIFIANT PAROUVRE expression PARFERME ACCFERME 
+					;
 operand :				
 
-						valeur
-						|IDENTIFIANT
-						| PAROUVRE expression PARFERME 
-						;
-operateur :				MULT {$$ = MULTVAL;} 
-	  					|PLUS {$$ = PLUSVAL;}
-						|MOINS {$$ = MOINSVAL;}
-						|PUISS {$$ = PUISSVAL;}
-						;
+					valeur
+					|IDENTIFIANT
+					| PAROUVRE expression PARFERME 
+					;
+
+operateur :			MULT {$$ = MULTVAL;} 
+	  				|PLUS {$$ = PLUSVAL;}
+					|MOINS {$$ = MOINSVAL;}
+					|PUISS {$$ = PUISSVAL;}
+					;
 	  
-valeur:
-						ENTIER
-						;
+valeur :
+					ENTIER
+					|FLOAT
+					|TRUE
+					;
 %%
 
 extern FILE *yyin;
